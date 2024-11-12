@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const driver_controller_1 = require("../controllers/driver.controller");
+const isAuthenticated_1 = require("../middleware/isAuthenticated");
+const driverRouter = express_1.default.Router();
+driverRouter.post("/send-otp", driver_controller_1.sendingOtpToPhone);
+driverRouter.post("/login", driver_controller_1.verifyPhoneOtpForLogin);
+driverRouter.post("/verify-otp", driver_controller_1.verifyPhoneOtpForRegistration);
+driverRouter.post("/registration-driver", driver_controller_1.verifyingEmailOtp);
+driverRouter.get("/me", isAuthenticated_1.isAuthenticatedDriver, driver_controller_1.getLoggedInDriverData);
+driverRouter.get("/get-drivers-data", driver_controller_1.getDriversById);
+driverRouter.put("/update-status", isAuthenticated_1.isAuthenticatedDriver, driver_controller_1.updateDriverStatus);
+driverRouter.post("/new-ride", isAuthenticated_1.isAuthenticatedDriver, driver_controller_1.newRide);
+driverRouter.put("/update-ride-status", isAuthenticated_1.isAuthenticatedDriver, driver_controller_1.updatingRideStatus);
+driverRouter.get("/get-rides", isAuthenticated_1.isAuthenticatedDriver, driver_controller_1.getAllRides);
+exports.default = driverRouter;
